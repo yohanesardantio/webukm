@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <?php
+
+    function GaussJordan($matrix) {
+        $baris = count($matrix);
+        $kolom = count($matrix[0]);
+    
+        for ($i = 0; $i < $baris; $i++) {
+            $pivotRow = $i;
+            for ($j = $i + 1; $j < $baris; $j++) {
+                if (abs($matrix[$j][$i]) >
+    abs($matrix[$pivotRow][$i])) { $pivotRow = $j; } } list($matrix[$i],
+    $matrix[$pivotRow]) = array($matrix[$pivotRow], $matrix[$i]); $pivot =
+    $matrix[$i][$i]; for ($j = 0; $j < $kolom; $j++) { $matrix[$i][$j] /=
+    $pivot; } for ($j = 0; $j < $baris; $j++) { if ($i != $j) { $factor =
+    $matrix[$j][$i]; for ($k = 0; $k < $kolom; $k++) { $matrix[$j][$k] -=
+    $factor * $matrix[$i][$k]; } } } } return $matrix; } function
+    solveLinearSystem($totalKulit, $totalBenang, $totalWaktu) {
+    $KoefisienMatriks = [ [0.3, 0.8, 0.9, $totalKulit], [1.5, 2, 2,
+    $totalBenang], [4, 5, 8, $totalWaktu] ]; $resultMatrix =
+    GaussJordan($KoefisienMatriks); echo "\nSolusi Sistem Persamaan Linear:\n";
+    echo "\n \n"; echo "Jumlah Dompet :
+    <input
+      type="text"
+      value='" . number_format($resultMatrix[0][3], 2) . "'
+      readonly
+    />\n"; echo "Jumlah Tas :
+    <input
+      type="text"
+      value='" . number_format($resultMatrix[1][3], 2) . "'
+      readonly
+    />\n"; echo "Jumlah Jaket :
+    <input
+      type="text"
+      value='" . number_format($resultMatrix[2][3], 2) . "'
+      readonly
+    />\n"; } if (isset($_POST['submit'])) { // Get user input $totalKulit =
+    floatval($_POST['totalKulit']); $totalBenang =
+    floatval($_POST['totalBenang']); $totalWaktu =
+    floatval($_POST['totalWaktu']); // Solve the linear system
+    solveLinearSystem($totalKulit, $totalBenang, $totalWaktu); } ?>
+  </body>
+</html>
